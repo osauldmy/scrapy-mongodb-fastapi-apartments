@@ -1,0 +1,74 @@
+[project]
+name = "real_estates_scraping"
+version = "0.0.1"
+description = "Job candidate homework on real estate web scraping topic"
+authors = [{ name = "Dmytro Osaulenko", email = "osauldmy@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi[all]",
+    "uvicorn[standard]",
+    "Scrapy",
+    "web-poet",          # separation cleaning logic from spiders
+    "Pillow",            # for scrapy image pipeline
+    "botocore",          # for scrapy image pipeline + minio storage
+    "pydantic[dotenv]",  # sharing schemas between API & scraper
+    "motor[srv]",        # async mongodb driver
+    "beanie",            # Mongo/Motor ODM
+    "geopy",             # Nominatim service for reverse geolocation
+    "geojson",           # RFC Point object
+    "countryinfo",       # validating currencies, countries, etc
+]
+
+[project.optional-dependencies]
+format = ["black", "isort"]
+lint = ["ruff", "pre-commit"]
+typecheck = ["mypy", "motor-types"]
+test = ["pytest", "pytest-cov", "pytest-lazy-fixture"] # mongomock-motor, pytest-asyncio
+dev = ["pdbpp", "ipython"]
+
+# Do not delete this block. Fixes pip-compile
+# https://github.com/jazzband/pip-tools/issues/1711#issuecomment-1494941823
+[tool.setuptools]
+py-modules = []
+
+[tool.ruff]
+line-length = 120        # mostly to allow long lines like strings
+target-version = "py310"
+
+# NOTE: do not forget to keep line-length in sync between linters
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.10"
+show_error_codes = true
+pretty = false
+plugins = ["pydantic.mypy"]
+strict = true
+
+disallow_subclassing_any = false
+disallow_untyped_calls = false
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+[[tool.mypy.overrides]]
+module = ["scrapy.*", "geopy", "countryinfo", "geojson"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+addopts = "-v --cov api --cov shared --cov scraper"
+
+[tool.coverage.run]
+omit = ["__init__.py"]
+
+[tool.coverage.report]
+skip_empty = true

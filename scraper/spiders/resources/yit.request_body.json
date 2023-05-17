@@ -1,0 +1,57 @@
+{
+  "PageSize": 10,
+  "StartPage": 0,
+  "QueryString": "*",
+  "UILanguage": "en",
+  "PageId": 21747,
+  "BlockId": 0,
+  "SiteId": "yit.sk",
+  "Attrs": ["inap"],
+  "Fields": null,
+  "CacheMaxAge": 0,
+  "Filter": {
+    "Field": "Locale",
+    "Value": "en",
+    "Operator": "Equals",
+    "AndConditions": [
+      {
+        "Field": "ProjectPublish",
+        "Value": true,
+        "Operator": "Equals",
+        "AndConditions": [],
+        "OrConditions": []
+      },
+      {
+        "Field": "IsAvailable",
+        "Value": true,
+        "Operator": "Equals",
+        "AndConditions": [],
+        "OrConditions": []
+      },
+      {
+        "Field": "ProductItemForSale",
+        "Value": true,
+        "Operator": "Equals",
+        "AndConditions": [],
+        "OrConditions": []
+      },
+      {
+        "Field": "AreaIds",
+        "Value": "cityv62u-q27j-49ue-j59q86mus34t",
+        "Operator": "Any",
+        "AndConditions": [],
+        "OrConditions": []
+      },
+      {
+        "Field": "BuildingTypeKey",
+        "Value": ["BlockOfFlats", "SemiDetachedHouse", "DetachedHouse"],
+        "Operator": "In",
+        "AndConditions": [],
+        "OrConditions": []
+      }
+    ],
+    "OrConditions": []
+  },
+  "Facet": [],
+  "Order": [{ "Field": "ReservationStatusIndex" }, { "Field": "CrmId" }]
+}

@@ -1,0 +1,52 @@
+---
+version: "3"
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_LOGIN}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - 127.0.0.1:27017:27017
+    volumes:
+      - ./mongo_data:/data/db
+    healthcheck:
+      test: mongosh --eval 'db.adminCommand("ping")'
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  mongo-ui:
+    image: mongo-express:latest
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_LOGIN}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - 127.0.0.1:8081:8081
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  minio:
+    image: minio/minio
+    restart: always
+    environment:
+      MINIO_ROOT_USER: ${MINIO_LOGIN}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+    command: ["server", "/data", "--console-address", ":9001"]
+    ports:
+      - 127.0.0.1:9000:9000
+      - 127.0.0.1:9001:9001
+    volumes:
+      - ./minio_data:/data
+    healthcheck:
+      test: curl -f http://localhost:9000/minio/health/live
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
