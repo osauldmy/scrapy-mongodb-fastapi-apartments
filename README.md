@@ -88,8 +88,8 @@ pytest
 ## Locking dependencies
 
 ```shell
-pip-compile --all-extras --generate-hashes --no-emit-index-url --output-file=requirements.txt --resolver=backtracking pyproject.toml
-pip-compile --generate-hashes --no-emit-index-url --output-file=requirements-prod.txt --resolver=backtracking pyproject.toml
+pip-compile --all-extras --no-emit-index-url --output-file=requirements.txt --resolver=backtracking pyproject.toml
+pip-compile --no-emit-index-url --output-file=requirements-prod.txt --resolver=backtracking pyproject.toml
 ```
 
 ## TODO
