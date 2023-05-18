@@ -48,7 +48,7 @@ class YitSkJsonApartmentPage(ApartmentPage):
     @property
     def price(self) -> Price:
         # NOTE: currency was not in the response JSON,
-        # but for this particular situation, we now SK has EUR
+        # but for this particular situation, we know SK has EUR
         return Price(price=self.data["SalesPrice"], currency="EUR")
 
     @property
@@ -59,7 +59,6 @@ class YitSkJsonApartmentPage(ApartmentPage):
     def rooms(self) -> Rooms:
         # NOTE: somehow `NumberOfRooms` can be '1,5' which is float?
         # replace comma with dot, cast it to float and then to int
-        # return Rooms(amount=int(float(_["NumberOfRooms"].replace(",", "."))))
         amount = int(float(self.data["NumberOfRooms"].replace(",", ".")))
         return Rooms(amount=amount)
 

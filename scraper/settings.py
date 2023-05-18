@@ -9,7 +9,9 @@ SPIDER_MODULES = [f"{PROJECT_NAME}.spiders"]
 # https://docs.scrapy.org/en/latest/topics/commands.html#custom-project-commands
 COMMANDS_MODULE = f"{PROJECT_NAME}.commands"
 
-USER_AGENT = "scraper/0.0.1 https://github.com/osauldmy/scrapy-mongodb-fastapi-apartments"
+USER_AGENT = (
+    "scraper/0.0.1 https://github.com/osauldmy/scrapy-mongodb-fastapi-apartments"
+)
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 COOKIES_ENABLED = False
