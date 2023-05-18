@@ -95,7 +95,6 @@ pip-compile --generate-hashes --no-emit-index-url --output-file=requirements-pro
 ## TODO
 
 - dockerize api
-- CI: lint, tests (gitlab, github)
 - more unit tests, integration tests
 - even better docs
 - PUT route in api/ for update/replacement

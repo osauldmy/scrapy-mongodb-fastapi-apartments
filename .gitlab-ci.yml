@@ -1,0 +1,17 @@
+---
+image: python:3.10
+
+stages:
+  - test
+
+lint:
+  stage: test
+  script:
+    - pip install pre-commit
+    - pre-commit run --all-files
+
+test:
+  stage: test
+  script:
+    - pip install -r requirements.txt
+    - pytest
