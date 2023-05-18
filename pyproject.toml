@@ -22,7 +22,7 @@ dependencies = [
 
 [project.optional-dependencies]
 format = ["black", "isort"]
-lint = ["ruff", "pre-commit"]
+lint = ["ruff"]
 typecheck = ["mypy", "motor-types"]
 test = ["pytest", "pytest-cov", "pytest-lazy-fixture"] # mongomock-motor, pytest-asyncio
 dev = ["pdbpp", "ipython"]

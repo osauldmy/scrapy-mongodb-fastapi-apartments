@@ -268,9 +268,9 @@ h11==0.14.0 \
     # via
     #   httpcore
     #   uvicorn
-httpcore==0.17.0 \
-    --hash=sha256:0fdfea45e94f0c9fd96eab9286077f9ff788dd186635ae61b312693e4d943599 \
-    --hash=sha256:cc045a3241afbf60ce056202301b4d8b6af08845e3294055eb26b09913ef903c
+httpcore==0.17.1 \
+    --hash=sha256:628e768aaeec1f7effdc6408ba1c3cdbd7487c1fc570f7d66844ec4f003e1ca4 \
+    --hash=sha256:caf508597c525f9b8bfff187e270666309f63115af30f7d68b16143a403c8356
     # via httpx
 httptools==0.5.0 \
     --hash=sha256:0297822cea9f90a38df29f48e40b42ac3d48a28637368f3ec6d15eebefd182f9 \
