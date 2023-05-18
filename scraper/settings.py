@@ -31,7 +31,7 @@ AWS_SECRET_ACCESS_KEY = DOTENV_SETTINGS.MINIO_PASSWORD
 AWS_ENDPOINT_URL = DOTENV_SETTINGS.MINIO_URL
 AWS_USE_SSL, AWS_VERIFY = True, True
 
-ITEM_PIPELINES = {
+ITEM_PIPELINES: dict[str, int] = {
     # f"{PROJECT_NAME}.pipelines.debug.PrettyPrintPydantic": 0,
     "scrapy.pipelines.files.FilesPipeline": 1,  # NOTE: required by FEEDS below
     f"{PROJECT_NAME}.pipelines.mongo.SaveToMongoWithDuplicatesCheck": 600,

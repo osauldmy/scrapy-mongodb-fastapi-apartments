@@ -20,7 +20,9 @@ class TestApartment:
         assert Apartment.parse_raw(pretty) == apartment
 
     def test_add_garbage_to_history(self, apartment: Apartment) -> None:
-        apartment.history.append("foobar")
+        apartment.history.append("foobar")  # type: ignore[arg-type]
+        # Intentionally testing adding wrong type. It's not validated at append,
+        # but when serialised and deserialised it fails as expected.
         with pytest.raises(ValidationError, match="history"):
             Apartment.parse_obj(apartment.dict())
 

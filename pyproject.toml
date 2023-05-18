@@ -61,7 +61,7 @@ warn_required_dynamic_aliases = true
 warn_untyped_fields = true
 
 [[tool.mypy.overrides]]
-module = ["scrapy.*", "geopy", "countryinfo", "geojson"]
+module = ["scrapy.*", "geopy", "countryinfo", "geojson", "diagrams.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
