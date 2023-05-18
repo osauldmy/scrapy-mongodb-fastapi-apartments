@@ -59,6 +59,8 @@ Run MinIO and MongoDB in background: `docker-compose up -d`
 
 Run API (todo docker): `uvicorn --reload --reload-dir api api.app:app`
 
+API is available at http://localhost:8000 and OpenAPI docs are available at http://localhost:8000/docs
+
 Run scraper: `scrapy run`
 
 Results can be checked in Mongo UI at http://localhost:8081 and in MinIO at http://localhost:9001 (credentials are located in `.env`)
@@ -98,6 +100,6 @@ pip-compile --generate-hashes --no-emit-index-url --output-file=requirements-pro
 - even better docs
 - PUT route in api/ for update/replacement
 - duplicates checker in scraper pipeline
-- ensure photos are saved only once, when apartment is saved to mongo 
+- ensure photos are saved only once, when apartment is saved to mongo
 - snippets: loading data from mongo and casting jsons into Apartment pydantic model
 - maybe jupyter notebook with geo map etc
