@@ -15,7 +15,7 @@ router = APIRouter(prefix="/apartments", tags=["Apartments"])
 
 
 # TODO: filtering
-@router.get("/", summary="Get all apartments")
+@router.get("", summary="Get all apartments")
 async def list_() -> Sequence[Apartment]:
     return await ApartmentBeanie.find_all().to_list()
 
@@ -27,7 +27,7 @@ async def get(id: PydanticObjectId) -> Apartment:
     return Apartment.from_orm(item)
 
 
-@router.post("/", summary="Insert/create one apartment")
+@router.post("", summary="Insert/create one apartment")
 async def create(item: Apartment) -> PydanticObjectId:
     item.source = Source.API
     x = ApartmentBeanie.parse_obj(item)
