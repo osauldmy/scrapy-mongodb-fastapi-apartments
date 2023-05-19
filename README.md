@@ -57,7 +57,7 @@ Check and update `.env` to your liking.
 
 Run MinIO and MongoDB in background: `docker-compose up -d`
 
-Run API (todo docker): `uvicorn --reload --reload-dir api api.app:app`
+Run API (todo docker): `uvicorn --reload --reload-dir api api:app`
 
 API is available at http://localhost:8000 and OpenAPI docs are available at http://localhost:8000/docs
 
