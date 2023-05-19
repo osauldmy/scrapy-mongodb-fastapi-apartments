@@ -35,6 +35,11 @@ py-modules = []
 [tool.ruff]
 line-length = 120        # mostly to allow long lines like strings
 target-version = "py310"
+ignore = [
+    # pycodestyle
+    "E731", # Do not assign a `lambda` expression, use a `def`
+    #       Yes, I like assigning lambdas to variables!
+]
 
 # NOTE: do not forget to keep line-length in sync between linters
 [tool.black]

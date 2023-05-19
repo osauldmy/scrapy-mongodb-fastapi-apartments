@@ -68,9 +68,8 @@ class Location(StrictBaseModel, arbitrary_types_allowed=True):
     def geolocate(
         cls, latitude: float | int, longitude: float | int
     ) -> Location | None:
-        if not isinstance(latitude, (float, int)) or not isinstance(
-            longitude, (float, int)
-        ):
+        float_or_int = lambda x: isinstance(x, float | int)
+        if not float_or_int(latitude) or not float_or_int(longitude):
             return None
 
         point = (latitude, longitude)
