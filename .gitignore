@@ -17,3 +17,5 @@ __pycache__/
 
 .mongo_data
 .minio_data
+mongo_data
+minio_data
