@@ -21,11 +21,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+dev = ["pdbpp", "ipython"]
 format = ["black", "isort"]
 lint = ["ruff"]
 typecheck = ["mypy", "motor-types"]
-test = ["pytest", "pytest-cov", "pytest-lazy-fixture"] # mongomock-motor, pytest-asyncio
-dev = ["pdbpp", "ipython"]
+test = ["pytest", "pytest-cov", "pytest-lazy-fixture"]
 
 # Do not delete this block. Fixes pip-compile
 # https://github.com/jazzband/pip-tools/issues/1711#issuecomment-1494941823
@@ -33,7 +33,7 @@ dev = ["pdbpp", "ipython"]
 py-modules = []
 
 [tool.ruff]
-line-length = 120        # mostly to allow long lines like strings
+line-length = 120 # mostly to allow long lines like strings
 target-version = "py310"
 ignore = [
     # pycodestyle
@@ -70,7 +70,8 @@ module = ["scrapy.*", "geopy", "countryinfo", "geojson", "diagrams.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
-addopts = "-v --cov api --cov shared --cov scraper"
+# NOTE: comment out --cov when want to use breakpoints in tests
+addopts = "-v --strict-markers --cov api --cov shared --cov scraper"
 
 [tool.coverage.run]
 omit = ["__init__.py"]
