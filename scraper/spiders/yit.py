@@ -12,7 +12,8 @@ import scrapy.http
 from scraper.pages.yit import YitSkJsonApartmentPage
 
 if TYPE_CHECKING:
-    from typing import Any, Iterator
+    from collections.abc import Iterator
+    from typing import Any
 
     from scrapy.http import JsonRequest, Request, TextResponse
 

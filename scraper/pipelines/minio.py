@@ -8,7 +8,8 @@ import scrapy
 from scrapy.pipelines.images import ImagesPipeline
 
 if TYPE_CHECKING:
-    from typing import Any, Iterator
+    from collections.abc import Iterator
+    from typing import Any
 
     from scrapy import Request
     from scrapy.pipelines.media import MediaPipeline

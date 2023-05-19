@@ -12,7 +12,7 @@ from shared.odm import ApartmentBeanie
 from shared.settings import Settings
 
 if TYPE_CHECKING:
-    from typing import AsyncIterator
+    from collections.abc import AsyncIterator
 
 
 @asynccontextmanager

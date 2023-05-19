@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import logging
-from typing import Literal, Sequence, cast
+from collections.abc import Sequence
+from typing import Literal, cast
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException
