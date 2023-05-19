@@ -11,7 +11,7 @@ Modelling/representing real estate data in backend, scraping, cleaning and servi
 - scraper scrapes given website(s) (which may have dynamic content with JS)
 - models/schemas should be designed in a way they can cover different heterogeneous systems
 - scraper runs should be repeatable, scraper may be launched more than once per day (in that case data should be overwritten)
-- data should stored in database/storage with granularity of one day
+- data should be stored in database/storage with granularity of one day
 - scraped data should be available through REST API
 - API server shouldn't be read-only, but CRUD, so data may come to database through API as well
 
