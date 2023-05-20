@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import itertools
 import json
+import math
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -13,9 +13,9 @@ from scraper.pages.yit import YitSkJsonApartmentPage
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
-    from typing import Any
+    from typing import Any, Callable
 
-    from scrapy.http import JsonRequest, Request, TextResponse
+    from scrapy.http import Request, Response, TextResponse
 
     from shared.models import Apartment
 
@@ -30,19 +30,36 @@ class YitSkFlatsForSale(scrapy.Spider):
         (Path(__file__).parent / "resources" / "yit.request_body.json").read_text()
     )
 
-    def start_requests(self) -> Iterator[JsonRequest]:
-        # Infinite loop to be stopped from .process_listing() by raising CloseSpider
-        # Not the best approach, but it gets the job done.
-        # More clean/sophisticated version would be to get the amount of existing ads
-        # right at the start of start_requests and then use `for page_index in range(max_page)`
+    @classmethod
+    def _api_request(
+        cls, page: int, callback: Callable[[Response], Any]
+    ) -> scrapy.http.JsonRequest:
+        return scrapy.http.JsonRequest(
+            url=cls.API_URL,
+            data=cls.BODY | {"StartPage": page, "PageSize": cls.PER_PAGE},
+            method="POST",
+            callback=callback,
+        )
+
+    def start_requests(self) -> tuple[Request]:
+        """
+        Make first request to API to determine how many apartments/pages are there
+        and delegate the response to next method where additional request are made.
+        """
+        return (self._api_request(page=0, callback=self.continue_requests),)
+
+    def continue_requests(self, response: TextResponse) -> Iterator[Request]:
+        """
+        Use json data from `.start_requests()`, pass them to `.process_listing()`.
+        Calculate how many pages with content are there, so it's not infinite loop
+        or `itertools.count()` which should be interrupted with `raise CloseSpider`
+        (which doesn't really work as I'd expect) and make the rest of requests.
+        """
+        yield from self.process_listing(response)
+        last_page_plus_one = math.ceil(response.json()["TotalHits"] / self.PER_PAGE)
         yield from (
-            scrapy.http.JsonRequest(
-                url=self.API_URL,
-                data=self.BODY | {"StartPage": page_index, "PageSize": self.PER_PAGE},
-                method="POST",
-                callback=self.process_listing,
-            )
-            for page_index in itertools.count()
+            self._api_request(page=page, callback=self.process_listing)
+            for page in range(1, last_page_plus_one)
         )
 
     def process_listing(self, response: TextResponse) -> Iterator[Request]:
@@ -50,10 +67,7 @@ class YitSkFlatsForSale(scrapy.Spider):
         Yield up to self.PER_PAGE items from single response.
         For each item additionally make a request to its html page to get all photos links.
         """
-
         data = response.json()
-        if data["IsMoreAvailable"] is False:
-            raise scrapy.exceptions.CloseSpider("Nothing more to scrape!")
 
         for apartment in data.get("Hits") or ():
             for_sale = apartment["Fields"]["ProductItemForSale"]
