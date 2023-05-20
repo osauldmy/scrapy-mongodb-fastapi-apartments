@@ -25,9 +25,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     settings = Settings()
     mongo_client = AsyncIOMotorClient(settings.MONGO_URL)
     database = mongo_client[settings.MONGO_DATABASE]
-    collection = database[settings.MONGO_COLLECTION]
     await init_beanie(database=database, document_models=[ApartmentBeanie])  # type: ignore[arg-type]
-    app.state.mongo_collection = collection
     yield
     mongo_client.close()
 
