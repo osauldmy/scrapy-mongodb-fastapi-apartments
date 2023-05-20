@@ -23,7 +23,8 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: requirements
+        run: pip install -r requirements.txt
+
       - name: pytest
-        run: |
-          pip install -r requirements.txt
-          pytest
+        run: pytest
