@@ -77,11 +77,12 @@ module = [
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
+testpaths = ["tests"] # only look for tests in tests/ dir
 # NOTE: comment out --cov when want to use breakpoints in tests
-addopts = "-v --strict-markers --cov api --cov shared --cov scraper"
+addopts = "-v --strict-markers --cov ."
 
 [tool.coverage.run]
-omit = ["__init__.py"]
+omit = ["tests/*"]
 
 [tool.coverage.report]
 skip_empty = true
