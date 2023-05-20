@@ -33,9 +33,9 @@ test = ["pytest", "pytest-cov", "pytest-lazy-fixture"]
 py-modules = []
 
 [tool.pytest.ini_options]
-# NOTE: comment out --cov when want to use breakpoints in tests
 testpaths = ["tests"]
-addopts = "-v --strict-markers" #  --cov ."
+# NOTE: comment out --cov when want to use breakpoints in tests
+addopts = "-v --strict-markers --cov ."
 
 [tool.coverage.run]
 omit = ["tests/*"]
