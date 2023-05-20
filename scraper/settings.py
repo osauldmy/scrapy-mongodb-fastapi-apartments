@@ -2,6 +2,7 @@ import datetime
 
 from pydantic.json import pydantic_encoder
 
+from shared.s3 import ensure_s3_bucket_exists, get_s3_client
 from shared.settings import Settings
 
 PROJECT_NAME = BOT_NAME = "scraper"
@@ -53,3 +54,8 @@ FEEDS = {
         },
     }
 }
+
+ensure_s3_bucket_exists(
+    get_s3_client(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_ENDPOINT_URL),
+    DOTENV_SETTINGS.MINIO_BUCKET,
+)
