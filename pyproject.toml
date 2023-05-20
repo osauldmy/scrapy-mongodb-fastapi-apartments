@@ -32,6 +32,17 @@ test = ["pytest", "pytest-cov", "pytest-lazy-fixture"]
 [tool.setuptools]
 py-modules = []
 
+[tool.pytest.ini_options]
+# NOTE: comment out --cov when want to use breakpoints in tests
+testpaths = ["tests"]
+addopts = "-v --strict-markers" #  --cov ."
+
+[tool.coverage.run]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+skip_empty = true
+
 [tool.ruff]
 line-length = 120 # mostly to allow long lines like strings
 target-version = "py310"
@@ -75,14 +86,3 @@ module = [
     "diagrams.*",
 ]
 ignore_missing_imports = true
-
-[tool.pytest.ini_options]
-testpaths = ["tests"] # only look for tests in tests/ dir
-# NOTE: comment out --cov when want to use breakpoints in tests
-addopts = "-v --strict-markers --cov ."
-
-[tool.coverage.run]
-omit = ["tests/*"]
-
-[tool.coverage.report]
-skip_empty = true
