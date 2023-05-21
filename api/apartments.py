@@ -10,6 +10,9 @@ from fastapi import APIRouter, HTTPException
 from shared.models import Apartment, Source
 from shared.odm import ApartmentBeanie
 
+# NOTE: using typing.TYPE_CHECKING block here will break fastapi type guessing
+
+
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/apartments", tags=["Apartments"])
 

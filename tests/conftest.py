@@ -1,13 +1,57 @@
 from __future__ import annotations
 
+import os
+from functools import cache
 from typing import TYPE_CHECKING
 
+import beanie
 import pytest
+from pymongo import MongoClient
+from pymongo.errors import PyMongoError
 
 from shared.models import Apartment, OfferType, Price, Rooms, Size, Source, Status
 
 if TYPE_CHECKING:
     from typing import Any
+
+    from _pytest.python import Function
+
+
+def pytest_itemcollected(item: Function) -> None:
+    """
+    Modifies API test names depending on what type df is used:
+        running MongoDB instance or mongomock.
+    Also adds mongo marker for tests using mongodb, so
+    integration tests can be easily launched using `pytest -m mongo`
+    """
+    if "set_mongo" not in item.fixturenames:
+        return
+
+    if not is_mongo_running():
+        item._nodeid += "[mock]"
+        return
+
+    item.add_marker("mongo")
+    item._nodeid += "[mongo]"
+
+
+@cache
+def is_mongo_running() -> bool:
+    """Naive but working test."""
+    mongo_url = os.environ.get("MONGO_URL")
+    client: MongoClient[dict[str, Any]] = MongoClient(
+        mongo_url, serverSelectionTimeoutMS=1_000
+    )
+    try:
+        client.server_info()
+        return True
+    except PyMongoError:
+        return False
+
+
+@pytest.fixture
+def random_objectid() -> beanie.PydanticObjectId:
+    return beanie.PydanticObjectId()
 
 
 @pytest.fixture

@@ -29,7 +29,7 @@ beanie==1.19.0
     # via real-estates-scraping (pyproject.toml)
 black==23.3.0
     # via real-estates-scraping (pyproject.toml)
-botocore==1.29.135
+botocore==1.29.137
     # via real-estates-scraping (pyproject.toml)
 certifi==2023.5.7
     # via
@@ -90,7 +90,7 @@ httpcore==0.17.1
     # via httpx
 httptools==0.5.0
     # via uvicorn
-httpx==0.24.0
+httpx==0.24.1
     # via fastapi
 hyperlink==21.0.0
     # via twisted
@@ -137,11 +137,15 @@ lxml==4.9.2
 markupsafe==2.1.2
     # via jinja2
 matplotlib-inline==0.1.6
+    # via ipython
+mongomock==4.1.2
+    # via mongomock-motor
+mongomock-motor==0.0.19
     # via
     #   beanie
     #   real-estates-scraping (pyproject.toml)
 motor-types==1.0.0b1
-    # via ipython
+    # via real-estates-scraping (pyproject.toml)
 motor[srv]==3.1.2
     # via real-estates-scraping (pyproject.toml)
 multidict==6.0.4
@@ -157,6 +161,7 @@ orjson==3.8.12
 packaging==23.1
     # via
     #   black
+    #   mongomock
     #   parsel
     #   pytest
     #   scrapy
@@ -250,10 +255,12 @@ requests==2.30.0
     #   tldextract
 requests-file==1.5.1
     # via tldextract
-ruff==0.0.267
+ruff==0.0.269
     # via real-estates-scraping (pyproject.toml)
 scrapy==2.9.0
     # via real-estates-scraping (pyproject.toml)
+sentinels==1.0.0
+    # via mongomock
 service-identity==21.1.0
     # via scrapy
 six==1.16.0
@@ -275,7 +282,7 @@ starlette==0.27.0
     # via fastapi
 time-machine==2.9.0
     # via web-poet
-tldextract==3.4.2
+tldextract==3.4.4
     # via
     #   scrapy
     #   url-matcher

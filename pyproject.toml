@@ -25,7 +25,7 @@ dev = ["pdbpp", "ipython"]
 format = ["black", "isort"]
 lint = ["ruff"]
 typecheck = ["mypy", "motor-types"]
-test = ["pytest", "pytest-cov", "pytest-lazy-fixture"]
+test = ["pytest", "pytest-cov", "pytest-lazy-fixture", "mongomock-motor"]
 
 # Do not delete this block. Fixes pip-compile
 # https://github.com/jazzband/pip-tools/issues/1711#issuecomment-1494941823
@@ -36,6 +36,9 @@ py-modules = []
 testpaths = ["tests"]
 # NOTE: comment out --cov when want to use breakpoints in tests
 addopts = "-v --strict-markers --cov ."
+markers = [
+    "mongo: component/integration tests with running MongoDB instance"
+]
 
 [tool.coverage.run]
 omit = ["tests/*"]
@@ -83,6 +86,7 @@ module = [
     "geopy",
     "countryinfo",
     "geojson",
+    "mongomock_motor.*",
     "diagrams.*",
 ]
 ignore_missing_imports = true
