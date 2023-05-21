@@ -50,7 +50,7 @@ FEEDS = {
         "store_empty": True,
         "item_export_kwargs": {
             "default": pydantic_encoder,  # fixes json.dumps(pydantic_model)
-            "ensure_ascii": False,
+            "ensure_ascii": False,  # let utf-8 be readable in mongo-express
         },
     }
 }
