@@ -1,16 +1,15 @@
 from __future__ import annotations
 
+import asyncio
 from typing import TYPE_CHECKING
 
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
-from scrapy import signals
 from scrapy.exceptions import DropItem
 
 from shared.odm import ApartmentBeanie
 
 if TYPE_CHECKING:
-    from motor.motor_asyncio import AsyncIOMotorCollection
     from scrapy import Spider
     from scrapy.crawler import Crawler
     from typing_extensions import Self
@@ -19,42 +18,40 @@ if TYPE_CHECKING:
     from shared.settings import Settings
 
 
-# TODO: consider rewriting like in docs
-# https://docs.scrapy.org/en/latest/topics/item-pipeline.html#write-items-to-mongodb
 class SaveToMongoWithDuplicatesCheck:
     @classmethod
     def from_crawler(cls, crawler: Crawler) -> Self:
         settings: Settings = crawler.settings["DOTENV_SETTINGS"]
-        client = AsyncIOMotorClient(settings.MONGO_URL)
-        collection = client[settings.MONGO_DATABASE][settings.MONGO_COLLECTION]
+        return cls(
+            client=AsyncIOMotorClient(settings.MONGO_URL),
+            database=settings.MONGO_DATABASE,
+        )
 
-        instance = cls(client=client, collection=collection)
-        crawler.signals.connect(instance._init_beanie, signals.engine_started)
-        crawler.signals.connect(instance._close_motor_client, signals.engine_stopped)
-        return instance
-
-    def __init__(
-        self, client: AsyncIOMotorClient, collection: AsyncIOMotorCollection
-    ) -> None:
+    def __init__(self, client: AsyncIOMotorClient, database: str) -> None:
         self.client = client
-        self.collection = collection
+        self.database = database
 
-    async def drop_if_duplicate(self, item: Apartment) -> None:
-        duplicate = False  # TODO duplicates checker
-        if duplicate:
-            raise DropItem(f"{item.id} is duplicate!")
+    def open_spider(self, _: Spider) -> None:
+        loop = asyncio.get_event_loop()
+        coroutine = init_beanie(self.client[self.database], document_models=[ApartmentBeanie])  # type: ignore[arg-type]
+        if loop.is_running():
+            # https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task
+            # Seems like `asyncio.ensure_future` is getting deprecated/is not recommended.
+            asyncio.create_task(coroutine)
+        else:
+            loop.run_until_complete(coroutine)
 
-    async def process_item(self, item: Apartment, spider: Spider) -> Apartment:
+    async def is_duplicate(self, item: Apartment) -> bool:
+        is_duplicate = False  # TODO duplicates checker
+        return is_duplicate
+
+    async def process_item(self, item: Apartment, _: Spider) -> Apartment:
         apartment = ApartmentBeanie.parse_obj(item)
-        await self.drop_if_duplicate(apartment)
+        is_duplicate = await self.is_duplicate(apartment)
+        if is_duplicate:
+            raise DropItem(f"{item.id} is duplicate!")
         await apartment.insert()
         return item
 
-    async def _init_beanie(self) -> None:
-        database = self.collection.database
-        await init_beanie(
-            database=database, document_models=[ApartmentBeanie]  # type: ignore[arg-type]
-        )
-
-    def _close_motor_client(self) -> None:
+    def close_spider(self, _: Spider) -> None:
         self.client.close()
