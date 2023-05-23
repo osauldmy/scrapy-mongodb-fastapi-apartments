@@ -6,8 +6,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import scrapy
-import scrapy.exceptions
-import scrapy.http
+from scrapy.http import JsonRequest, Request
 
 from scraper.pages.yit import YitSkJsonApartmentPage
 
@@ -15,7 +14,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
     from typing import Any, Callable
 
-    from scrapy.http import Request, Response, TextResponse
+    from scrapy.http import Response, TextResponse
 
     from shared.models import Apartment
 
@@ -33,8 +32,8 @@ class YitSkFlatsForSale(scrapy.Spider):
     @classmethod
     def _api_request(
         cls, page: int, callback: Callable[[Response], Any]
-    ) -> scrapy.http.JsonRequest:
-        return scrapy.http.JsonRequest(
+    ) -> JsonRequest:
+        return JsonRequest(
             url=cls.API_URL,
             data=cls.BODY | {"StartPage": page, "PageSize": cls.PER_PAGE},
             method="POST",
@@ -79,7 +78,7 @@ class YitSkFlatsForSale(scrapy.Spider):
                 continue
 
             apartment_html_url = "https://www.yit.sk" + apartment["Fields"]["_Url"]
-            yield scrapy.Request(
+            yield Request(
                 apartment_html_url,  # for photos
                 callback=self.yield_item,
                 cb_kwargs={"json_data": apartment["Fields"]},
