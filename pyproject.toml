@@ -24,8 +24,14 @@ dependencies = [
 dev = ["pdbpp", "ipython"]
 format = ["black", "isort"]
 lint = ["ruff"]
-typecheck = ["mypy", "motor-types"]
-test = ["pytest", "pytest-cov", "pytest-lazy-fixture", "mongomock-motor"]
+typecheck = ["mypy", "motor-types", "types-pytest-lazy-fixture", "mongomock"]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-lazy-fixture",
+    "mongomock",
+    "mongomock-motor",
+]
 
 # Do not delete this block. Fixes pip-compile
 # https://github.com/jazzband/pip-tools/issues/1711#issuecomment-1494941823

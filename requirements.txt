@@ -294,6 +294,8 @@ traitlets==5.9.0
     #   matplotlib-inline
 twisted==22.10.0
     # via scrapy
+types-pytest-lazy-fixture==0.6.3.3
+    # via real-estates-scraping (pyproject.toml)
 typing-extensions==4.5.0
     # via
     #   async-lru

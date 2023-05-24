@@ -68,6 +68,7 @@ repos:
           - pydantic
           - pymongo
           - motor-types
+          - mongomock
           - beanie
           - web-poet
           - pytest
