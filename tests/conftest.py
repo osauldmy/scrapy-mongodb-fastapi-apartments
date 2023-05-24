@@ -6,15 +6,25 @@ from typing import TYPE_CHECKING
 
 import beanie
 import pytest
+from mongomock import MongoClient as MongoMockClient
+from mongomock_motor import AsyncMongoMockClient
+from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import MongoClient
 from pymongo.errors import PyMongoError
 
 from shared.models import Apartment, OfferType, Price, Rooms, Size, Source, Status
+from shared.settings import Settings
 
 if TYPE_CHECKING:
-    from typing import Any
+    from collections.abc import Iterator
+    from typing import Any, Type, TypeAlias
 
     from _pytest.python import Function
+
+    PyMongoClient = MongoClient | MongoMockClient
+    PyMongoClientClass = Type[PyMongoClient]
+    MotorClient: TypeAlias = AsyncIOMotorClient | AsyncMongoMockClient
+    MotorClientClass = Type[MotorClient]
 
 
 def pytest_itemcollected(item: Function) -> None:
@@ -27,12 +37,14 @@ def pytest_itemcollected(item: Function) -> None:
     if "set_mongo" not in item.fixturenames:
         return
 
-    if not is_mongo_running():
-        item._nodeid += "[mock]"
-        return
+    if is_mongo_running():
+        item.add_marker("mongo")
+        suffix = "[mongo]"
+    else:
+        suffix = "[mock]"
 
-    item.add_marker("mongo")
-    item._nodeid += "[mongo]"
+    # TODO: maybe add suffix after class if exists
+    item._nodeid += suffix
 
 
 @cache
@@ -47,6 +59,33 @@ def is_mongo_running() -> bool:
         return True
     except PyMongoError:
         return False
+
+
+@pytest.fixture
+def test_settings() -> Settings:
+    settings = Settings()
+    settings.MONGO_DATABASE = "dummy_db"
+    return settings
+
+
+@pytest.fixture
+def pymongo_client_class() -> PyMongoClientClass:
+    return MongoClient if is_mongo_running() else MongoMockClient
+
+
+@pytest.fixture
+def motor_client_class() -> MotorClientClass:
+    return AsyncIOMotorClient if is_mongo_running() else AsyncMongoMockClient
+
+
+@pytest.fixture
+def pymongo_client(
+    pymongo_client_class: PyMongoClientClass,
+    test_settings: Settings,
+) -> Iterator[PyMongoClient]:
+    client = pymongo_client_class(test_settings.MONGO_URL)
+    yield client
+    client.close()
 
 
 @pytest.fixture
