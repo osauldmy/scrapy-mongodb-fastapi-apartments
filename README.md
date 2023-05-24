@@ -92,6 +92,8 @@ pip-compile --all-extras --no-emit-index-url --output-file=requirements.txt --re
 pip-compile --no-emit-index-url --output-file=requirements-prod.txt --resolver=backtracking pyproject.toml
 ```
 
+For repinning `rm requirements.txt requirements-prod.txt && pip-compile ...`
+
 ## TODO
 
 - dockerize api

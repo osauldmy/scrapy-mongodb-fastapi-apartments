@@ -21,9 +21,9 @@ attrs==23.1.0
     #   web-poet
 automat==22.10.0
     # via twisted
-beanie==1.19.0
+beanie==1.19.1
     # via real-estates-scraping (pyproject.toml)
-botocore==1.29.137
+botocore==1.29.139
     # via real-estates-scraping (pyproject.toml)
 certifi==2023.5.7
     # via
@@ -71,7 +71,7 @@ h11==0.14.0
     # via
     #   httpcore
     #   uvicorn
-httpcore==0.17.1
+httpcore==0.17.2
     # via httpx
 httptools==0.5.0
     # via uvicorn
@@ -119,7 +119,7 @@ motor[srv]==3.1.2
     #   real-estates-scraping (pyproject.toml)
 multidict==6.0.4
     # via web-poet
-orjson==3.8.12
+orjson==3.8.13
     # via fastapi
 packaging==23.1
     # via
@@ -143,7 +143,7 @@ pyasn1-modules==0.3.0
     # via service-identity
 pycparser==2.21
     # via cffi
-pydantic[dotenv]==1.10.7
+pydantic[dotenv]==1.10.8
     # via
     #   beanie
     #   fastapi
@@ -172,7 +172,7 @@ pyyaml==6.0
     #   uvicorn
 queuelib==1.6.2
     # via scrapy
-requests==2.30.0
+requests==2.31.0
     # via
     #   requests-file
     #   tldextract
@@ -206,7 +206,7 @@ toml==0.10.2
     # via beanie
 twisted==22.10.0
     # via scrapy
-typing-extensions==4.5.0
+typing-extensions==4.6.1
     # via
     #   async-lru
     #   pydantic
@@ -215,7 +215,7 @@ ujson==5.7.0
     # via fastapi
 url-matcher==0.2.0
     # via web-poet
-urllib3==1.26.15
+urllib3==1.26.16
     # via
     #   botocore
     #   requests

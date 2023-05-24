@@ -25,11 +25,11 @@ automat==22.10.0
     # via twisted
 backcall==0.2.0
     # via ipython
-beanie==1.19.0
+beanie==1.19.1
     # via real-estates-scraping (pyproject.toml)
 black==23.3.0
     # via real-estates-scraping (pyproject.toml)
-botocore==1.29.137
+botocore==1.29.139
     # via real-estates-scraping (pyproject.toml)
 certifi==2023.5.7
     # via
@@ -49,7 +49,7 @@ constantly==15.1.0
     # via twisted
 countryinfo==0.1.2
     # via real-estates-scraping (pyproject.toml)
-coverage[toml]==7.2.5
+coverage[toml]==7.2.6
     # via pytest-cov
 cryptography==40.0.2
     # via
@@ -86,7 +86,7 @@ h11==0.14.0
     # via
     #   httpcore
     #   uvicorn
-httpcore==0.17.1
+httpcore==0.17.2
     # via httpx
 httptools==0.5.0
     # via uvicorn
@@ -139,12 +139,14 @@ markupsafe==2.1.2
 matplotlib-inline==0.1.6
     # via ipython
 mongomock==4.1.2
-    # via mongomock-motor
+    # via
+    #   mongomock-motor
+    #   real-estates-scraping (pyproject.toml)
 mongomock-motor==0.0.19
     # via
     #   beanie
     #   real-estates-scraping (pyproject.toml)
-motor-types==1.0.0b1
+motor-types==1.0.0b2
     # via real-estates-scraping (pyproject.toml)
 motor[srv]==3.1.2
     # via real-estates-scraping (pyproject.toml)
@@ -156,7 +158,7 @@ mypy-extensions==1.0.0
     # via
     #   black
     #   mypy
-orjson==3.8.12
+orjson==3.8.13
     # via fastapi
 packaging==23.1
     # via
@@ -203,7 +205,7 @@ pyasn1-modules==0.3.0
     # via service-identity
 pycparser==2.21
     # via cffi
-pydantic[dotenv]==1.10.7
+pydantic[dotenv]==1.10.8
     # via
     #   beanie
     #   fastapi
@@ -252,7 +254,7 @@ pyyaml==6.0
     #   uvicorn
 queuelib==1.6.2
     # via scrapy
-requests==2.30.0
+requests==2.31.0
     # via
     #   requests-file
     #   tldextract
@@ -299,7 +301,7 @@ twisted==22.10.0
     # via scrapy
 types-pytest-lazy-fixture==0.6.3.3
     # via real-estates-scraping (pyproject.toml)
-typing-extensions==4.5.0
+typing-extensions==4.6.1
     # via
     #   async-lru
     #   motor-types
@@ -310,7 +312,7 @@ ujson==5.7.0
     # via fastapi
 url-matcher==0.2.0
     # via web-poet
-urllib3==1.26.15
+urllib3==1.26.16
     # via
     #   botocore
     #   requests
