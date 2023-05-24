@@ -27,6 +27,7 @@ lint = ["ruff"]
 typecheck = ["mypy", "motor-types", "types-pytest-lazy-fixture", "mongomock"]
 test = [
     "pytest",
+    "pytest-asyncio",
     "pytest-cov",
     "pytest-lazy-fixture",
     "mongomock",
