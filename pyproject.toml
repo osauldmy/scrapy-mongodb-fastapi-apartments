@@ -36,9 +36,7 @@ py-modules = []
 testpaths = ["tests"]
 # NOTE: comment out --cov when want to use breakpoints in tests
 addopts = "-v --strict-markers --cov ."
-markers = [
-    "mongo: component/integration tests with running MongoDB instance"
-]
+markers = ["mongo: component/integration tests with running MongoDB instance"]
 
 [tool.coverage.run]
 omit = ["tests/*"]
