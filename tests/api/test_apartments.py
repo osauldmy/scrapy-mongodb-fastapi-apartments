@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import contextlib
 import datetime
 import os
 from typing import TYPE_CHECKING
@@ -9,34 +8,32 @@ from unittest.mock import patch
 import pytest
 from beanie import PydanticObjectId
 from fastapi.testclient import TestClient
-from mongomock_motor import AsyncMongoMockClient
-from pymongo import MongoClient
 
 from api import app
 from shared.models import Apartment, Source
-from shared.settings import Settings
-from tests.conftest import is_mongo_running
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
     from contextlib import AbstractContextManager
 
-
-@pytest.fixture
-def set_mongo() -> Iterator[AbstractContextManager[None]]:
-    with patch.dict(os.environ, {"MONGO_DATABASE": "dummy"}):
-        if is_mongo_running() is False:
-            yield patch("api.AsyncIOMotorClient", AsyncMongoMockClient)
-            return
-
-        yield contextlib.nullcontext()
-        settings = Settings()
-        MongoClient(settings.MONGO_URL).drop_database(settings.MONGO_DATABASE)
+    from shared.settings import Settings
+    from tests.conftest import MotorClientClass, PyMongoClient
 
 
 @pytest.fixture
-def client(set_mongo: AbstractContextManager[None]) -> Iterator[TestClient]:
-    with set_mongo:
+def patch_motor_client(
+    motor_client_class: MotorClientClass,
+    pymongo_client: PyMongoClient,
+    test_settings: Settings,
+) -> Iterator[AbstractContextManager[MotorClientClass]]:
+    with patch.dict(os.environ, {"MONGO_DATABASE": test_settings.MONGO_DATABASE}):
+        yield patch("api.AsyncIOMotorClient", motor_client_class)
+    pymongo_client.drop_database(test_settings.MONGO_DATABASE)
+
+
+@pytest.fixture
+def client(patch_motor_client: AbstractContextManager[None]) -> Iterator[TestClient]:
+    with patch_motor_client:
         # if it's `yield TestClient(app)`, then lifespan is not called,
         # so init_beanie() is not awaited and api will fail on attempt
         # of communicating with db

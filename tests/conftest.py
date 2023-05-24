@@ -34,7 +34,7 @@ def pytest_itemcollected(item: Function) -> None:
     Also adds mongo marker for tests using mongodb, so
     integration tests can be easily launched using `pytest -m mongo`
     """
-    if "set_mongo" not in item.fixturenames:
+    if "motor_client_class" not in item.fixturenames:
         return
 
     if is_mongo_running():
