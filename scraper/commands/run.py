@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING
 
 import scrapy.commands
 
+from shared.s3 import ensure_s3_bucket_exists, get_s3_client
+
 if TYPE_CHECKING:
     from argparse import Namespace
     from typing import Any
@@ -38,6 +40,16 @@ class Command(scrapy.commands.ScrapyCommand):
         return "Run all spiders [custom command]"
 
     def run(self, _: Any, opts: Namespace) -> None:
+        settings = self.crawler_process.settings
+        ensure_s3_bucket_exists(
+            get_s3_client(
+                settings["AWS_ACCESS_KEY_ID"],
+                settings["AWS_SECRET_ACCESS_KEY"],
+                settings["AWS_ENDPOINT_URL"],
+            ),
+            settings["BUCKET"],
+        )
+
         for spider_name in self.crawler_process.spider_loader.list():
             self.crawler_process.crawl(spider_name, **vars(opts))
         self.crawler_process.start()
