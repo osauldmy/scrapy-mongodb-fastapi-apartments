@@ -47,7 +47,7 @@ maybe cron, maybe K8S cronjob, maybe something like Apache airflow.
 python3 -m venv .venv
 source .venv/bin/activate
 pip install pip-tools pre-commit
-pip-sync
+pip-sync requirements-dev.txt
 pre-commit install
 ```
 
@@ -88,11 +88,11 @@ pytest
 ## Locking dependencies
 
 ```shell
-pip-compile --all-extras --no-emit-index-url --output-file=requirements.txt --resolver=backtracking pyproject.toml
-pip-compile --no-emit-index-url --output-file=requirements-prod.txt --resolver=backtracking pyproject.toml
+pip-compile --no-emit-index-url --output-file=requirements.txt --resolver=backtracking pyproject.toml
+pip-compile --all-extras --no-emit-index-url --output-file=requirements-dev.txt --resolver=backtracking pyproject.toml
 ```
 
-For repinning `rm requirements.txt requirements-prod.txt && pip-compile ...`
+For repinning `rm requirements.txt requirements-dev.txt && pip-compile ...`
 
 ## TODO
 
