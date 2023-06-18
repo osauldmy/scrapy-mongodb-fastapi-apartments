@@ -4,6 +4,33 @@
 fail_fast: true
 
 repos:
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.0.269"
+    hooks:
+      - id: ruff
+
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.3.0"
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - fastapi
+          - pydantic
+          - motor-types
+          - beanie
+          - web-poet
+          - pytest
+          - types-pytest-lazy-fixture
+        args: ["--config", "pyproject.toml"]
+
+    # I still need these checks, but it seems to me when commit is done
+    # and pre-commit is launched, I care more about ruff & mypy in the first place,
+    # but these are still important for non-code, configs, whitespaces etc.
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -27,50 +54,3 @@ repos:
       - id: check-docstring-first
       - id: debug-statements
       - id: requirements-txt-fixer
-
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.10.0
-    hooks:
-      - id: python-check-blanket-noqa
-      - id: python-check-blanket-type-ignore
-      - id: python-check-mock-methods
-      - id: python-no-eval
-      - id: python-no-log-warn
-      - id: python-use-type-annotations
-      - id: text-unicode-replacement-char
-
-  - repo: https://github.com/asottile/yesqa
-    rev: v1.4.0
-    hooks:
-      - id: yesqa
-
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
-
-  - repo: https://github.com/psf/black
-    rev: 23.3.0
-    hooks:
-      - id: black
-
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.0.269"
-    hooks:
-      - id: ruff
-
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.3.0"
-    hooks:
-      - id: mypy
-        additional_dependencies:
-          - fastapi
-          - pydantic
-          - pymongo
-          - motor-types
-          - mongomock
-          - beanie
-          - web-poet
-          - pytest
-          - types-pytest-lazy-fixture
-        args: ["--config", "pyproject.toml"]
