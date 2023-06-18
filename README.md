@@ -97,10 +97,14 @@ For repinning `rm requirements.txt requirements-dev.txt && pip-compile ...`
 ## TODO
 
 - dockerize api
-- more unit tests, integration tests
-- even better docs
 - PUT route in api/ for update/replacement
+- better docs (probably split stuff into multiple markdown files, put them to docs/ and point there from README)
 - duplicates checker in scraper pipeline
 - ensure photos are saved only once, when apartment is saved to mongo
-- snippets: loading data from mongo and casting jsons into Apartment pydantic model
-- maybe jupyter notebook with geo map etc
+- save logs to minio (yes, it's on diagram, but not yet implemented)
+- more unit tests, integration tests
+  * maybe try scrapy-autounit, scrapy-html-storage or similar plugins.
+  * casettes unfortunately don't work for twisted, maybe try some sockets/dns mocking
+- bonuses
+  * snippets: loading data from mongo and casting jsons into Apartment pydantic model
+  * maybe jupyter notebook with geo map etc
