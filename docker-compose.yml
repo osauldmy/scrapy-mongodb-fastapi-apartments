@@ -1,6 +1,29 @@
 ---
 version: "3"
 services:
+
+  # .base-app: &base-app
+  #   build: .
+  #   image: scraper_with_api # allows to build the image once, export it and re-use in next services
+  #   env_file: .env
+
+  api:
+    # <<: *base-app
+    build: .
+    env_file: .env
+    restart: always
+    environment:
+      MONGO_URL: "mongodb://${MONGO_LOGIN}:${MONGO_PASSWORD}@mongo:27017"
+    command: uvicorn api:app --host 0.0.0.0 --reload --reload-dir api
+    ports:
+      - 127.0.0.1:8000:8000
+    volumes:
+      - ./api:/app/api
+      - ./shared:/app/shared
+    depends_on:
+      mongo:
+        condition: service_healthy
+
   mongo:
     image: mongo:latest
     restart: always
