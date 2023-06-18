@@ -22,6 +22,7 @@ repos:
           - fastapi
           - pydantic
           - motor-types
+          - mongomock
           - beanie
           - web-poet
           - pytest
