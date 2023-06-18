@@ -55,9 +55,7 @@ pre-commit install
 
 Check and update `.env` to your liking.
 
-Run MinIO and MongoDB in background: `docker-compose up -d`
-
-Run API (todo docker): `uvicorn --reload --reload-dir api api:app`
+Run API, MinIO and MongoDB in background: `docker-compose up -d`
 
 API is available at http://localhost:8000 and OpenAPI docs are available at http://localhost:8000/docs
 
@@ -96,7 +94,6 @@ For repinning `rm requirements.txt requirements-dev.txt && pip-compile ...`
 
 ## TODO
 
-- dockerize api
 - more unit tests, integration tests
 - even better docs
 - PUT route in api/ for update/replacement
