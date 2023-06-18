@@ -51,15 +51,6 @@ omit = ["tests/*"]
 [tool.coverage.report]
 skip_empty = true
 
-[tool.ruff]
-line-length = 120 # mostly to allow long lines like strings
-target-version = "py310"
-ignore = [
-    # pycodestyle
-    "E731", # Do not assign a `lambda` expression, use a `def`
-    #       Yes, I like assigning lambdas to variables!
-]
-
 # NOTE: do not forget to keep line-length in sync between linters
 [tool.black]
 line-length = 88
@@ -95,3 +86,91 @@ module = [
     "diagrams.*",
 ]
 ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 120        # mostly to allow long lines like strings
+target-version = "py310"
+# typing-modules = ["collections.abc"]
+# fixable = []
+select = [
+    # "ALL",
+    "F",   # pyflakes
+    "E",   # pycodestyle
+    "W",   # pycodestyle
+    "UP",  # pyupgrade
+    "D",   # pydocstyle
+    "C90", # mccabe
+    "I",   #  isort
+    "N",   #  pep8-naming
+    # YTT flake8-2020
+    # ANN flake8-annotations
+    # S flake8-bandit
+    # BLE flake8-blind-except
+    # FBT flake8-boolean-trap
+    # B flake8-bugbear
+    # A flake8-builtins
+    # COM flake8-commas
+    # C4 flake8-comprehensions
+    # DTZ flake8-datetimez
+    # T10 flake8-debugger
+    # DJ flake8-django
+    # EM flake8-errmsg
+    # EXE flake8-executable
+    # ISC flake8-implicit-str-concat
+    # ICN flake8-import-conventions
+    # G flake8-logging-format
+    # INP flake8-no-pep420
+    # PIE flake8-pie
+    # T20 flake8-print
+    # PYI flake8-pyi
+    "PT", # flake8-pytest-style
+    # Q flake8-quotes
+    # RSE flake8-raise
+    # RET flake8-return
+    # SLF flake8-self
+    # SIM flake8-simplify
+    # TID flake8-tidy-imports
+    # TCH flake8-type-checking
+    # INT flake8-gettext
+    # ARG flake8-unused-arguments
+    # PTH flake8-use-pathlib
+    # ERA eradicate
+    # PD pandas-vet
+    # PGH pygrep-hooks
+    # PL Pylint
+    # TRY tryceratops
+    # FLY flynt
+    # NPY NumPy-specific rules
+    # RUF Ruff-specific rules
+]
+ignore = [
+    # pycodestyle
+    "E731", # Do not assign a `lambda` expression, use a `def`
+    #       Yes, I like assigning lambdas to variables!
+    # pydocstyle
+    "D100", # Missing docstring in public module
+    "D101", # Missing docstring in public class
+    "D102", # Missing docstring in public method
+    "D103", # Missing docstring in public function
+    "D104", # Missing docstring in public package
+    # "D105", # Missing docstring in magic method
+    "D106", # Missing docstring in public nested class
+    "D107", # Missing docstring in `__init__`
+    "D203", # 1 blank line required before class docstring
+    "D204", # 1 blank line required after class docstring
+    "D205", # 1 blank line required between summary line and description
+    "D212", # Multi-line docstring summary should start at the first line
+    #       Second line is better imo!
+]
+
+[tool.ruff.per-file-ignores]
+"tests/*.py" = [
+    "S101", # S101 Use of `assert` detected
+]
+
+[tool.ruff.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+parametrize-names-type = "csv"
+parametrize-values-row-type = "tuple"
+parametrize-values-type = "tuple"
